@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\Filter;
@@ -47,7 +48,7 @@ class ContactResource extends Resource
                     ]),
                 TextInput::make('city')
                     ->minLength(3),
-                Select::make('category')
+                CheckboxList::make('category')
                     ->options([
                         'family' => 'Family',
                         'work' => 'Work',

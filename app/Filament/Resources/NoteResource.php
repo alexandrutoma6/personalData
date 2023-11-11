@@ -10,6 +10,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -23,7 +30,13 @@ class NoteResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('title')
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(20),
+                //RichEditor::make('description'),
+                MarkdownEditor::make('description'),
+                Checkbox::make('favorite')
             ]);
     }
 
@@ -31,7 +44,12 @@ class NoteResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description'),
+                TextColumn::make('date'),
+                CheckboxColumn::make('favorite')
             ])
             ->filters([
                 //
