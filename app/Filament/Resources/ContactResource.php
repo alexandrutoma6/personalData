@@ -48,7 +48,7 @@ class ContactResource extends Resource
                     ]),
                 TextInput::make('city')
                     ->minLength(3),
-                CheckboxList::make('category')
+                Select::make('category')
                     ->options([
                         'family' => 'Family',
                         'work' => 'Work',

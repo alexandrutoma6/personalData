@@ -7,15 +7,16 @@ use App\Filament\Resources\NoteResource\RelationManagers;
 use App\Models\Note;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Support\Enums\FontWeight;
 use Filament\Forms\Components\Checkbox;
+use Filament\Tables\Columns\Layout\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -34,8 +35,8 @@ class NoteResource extends Resource
                     ->required()
                     ->minLength(3)
                     ->maxLength(20),
-                //RichEditor::make('description'),
-                MarkdownEditor::make('description'),
+                MarkdownEditor::make('description')
+                    ->columnSpanFull(),
                 Checkbox::make('favorite')
             ]);
     }
@@ -44,23 +45,42 @@ class NoteResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('description'),
-                TextColumn::make('date'),
-                CheckboxColumn::make('favorite')
+                Grid::make()
+                    ->columns(1)
+                    ->schema([
+                        TextColumn::make('title')
+                            ->searchable()
+                            ->sortable()
+                            ->bulleted()
+                            ->weight(FontWeight::Bold),
+                        TextColumn::make('description')
+                            ->markdown(),
+                        TextColumn::make('date')
+                            ->date(),
+                        CheckboxColumn::make('favorite')
+                            ->label('Favorite')
+                    ])
+
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            //if there are no notes, a button will appear on the tabel to create a note
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create note')
+                    ->url('notes/create')
+                    ->icon('heroicon-m-plus')
+                    ->button(),
             ]);
     }
 
