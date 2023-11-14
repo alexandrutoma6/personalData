@@ -3,15 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NoteResource\Pages;
+use Filament\Tables\Columns\ViewColumn;
 use App\Filament\Resources\NoteResource\RelationManagers;
+use Filament\Support\Enums\Alignment;
 use App\Models\Note;
-use Filament\Forms;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\FontWeight;
@@ -19,7 +20,6 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class NoteResource extends Resource
 {
@@ -38,12 +38,17 @@ class NoteResource extends Resource
                 MarkdownEditor::make('description')
                     ->columnSpanFull(),
                 Checkbox::make('favorite')
+                    ->label('Favorite')
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->contentGrid([
+                'md' => 1,
+                'xl' => 2,
+            ])
             ->columns([
                 Grid::make()
                     ->columns(1)
@@ -54,16 +59,20 @@ class NoteResource extends Resource
                             ->bulleted()
                             ->weight(FontWeight::Bold),
                         TextColumn::make('description')
-                            ->markdown(),
+                            ->markdown()
+                            ->limit(300),
                         TextColumn::make('date')
-                            ->date(),
-                        CheckboxColumn::make('favorite')
-                            ->label('Favorite')
+                            ->date()
+                            ->sortable(),
+                        ViewColumn::make('favorite')
+                            ->view('favorite')
+                            ->alignment(Alignment::End)
                     ])
 
             ])
             ->filters([
-                //
+                Filter::make('favorite')
+                    ->query(fn (Builder $query): Builder => $query->where('favorite', true))
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
