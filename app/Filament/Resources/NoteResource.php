@@ -26,6 +26,7 @@ class NoteResource extends Resource
     protected static ?string $model = Note::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-pencil-square';
 
     public static function form(Form $form): Form
     {
