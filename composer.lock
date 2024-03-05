@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de11432ca6386a96e2f152c28a9c88b4",
+    "content-hash": "27d2d173b8ea7fa6bc12d31742f4907f",
     "packages": [
         {
             "name": "blade-ui-kit/blade-heroicons",
@@ -3293,6 +3293,83 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.8.1"
             },
             "time": "2023-05-10T11:58:31+00:00"
+        },
+        {
+            "name": "mokhosh/filament-kanban",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mokhosh/filament-kanban.git",
+                "reference": "f8dfe3a6e41e8909f27c8175f173a4d82908c1b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mokhosh/filament-kanban/zipball/f8dfe3a6e41e8909f27c8175f173a4d82908c1b3",
+                "reference": "f8dfe3a6e41e8909f27c8175f173a4d82908c1b3",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/eloquent-sortable": "^4.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mokhosh\\FilamentKanban\\FilamentKanbanServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentKanban": "Mokhosh\\FilamentKanban\\Facades\\FilamentKanban"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mokhosh\\FilamentKanban\\": "src/",
+                    "Mokhosh\\FilamentKanban\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mo Khosh",
+                    "email": "mskhoshnazar@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add kanban boards to your Filament pages",
+            "homepage": "https://github.com/mokhosh/filament-kanban",
+            "keywords": [
+                "filament-kanban",
+                "laravel",
+                "mokhosh"
+            ],
+            "support": {
+                "issues": "https://github.com/mokhosh/filament-kanban/issues",
+                "source": "https://github.com/mokhosh/filament-kanban"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mokhosh",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-28T16:56:14+00:00"
         },
         {
             "name": "monolog/monolog",

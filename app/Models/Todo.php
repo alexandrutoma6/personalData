@@ -12,6 +12,6 @@ class Todo extends Model
 
     protected $fillable = [
         'task',
-        'status' => 'pending',
+        'status',
     ];
 }

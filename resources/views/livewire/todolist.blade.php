@@ -10,9 +10,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 
-
 new class extends Component implements HasForms, HasActions {
-
     use InteractsWithActions;
     use InteractsWithForms;
 
@@ -37,8 +35,7 @@ new class extends Component implements HasForms, HasActions {
     {
         $newTask = trim($this->task);
 
-        if ($newTask != '')
-        {
+        if ($newTask != '') {
             $todo = new Todo();
             $todo->task = $newTask;
             // $this->user->todos()->save($todo);
@@ -59,8 +56,7 @@ new class extends Component implements HasForms, HasActions {
     {
         $newTask = trim($this->editedTask);
 
-        if ($newTask != '')
-        {
+        if ($newTask != '') {
             $todo = Todo::findOrFail($todoId);
             $todo->task = $newTask;
             $todo->save();
@@ -99,103 +95,64 @@ new class extends Component implements HasForms, HasActions {
                 Todo::findOrFail($arguments['todoId'])->delete();
                 $this->fetchTodos();
 
-                Notification::make()
-                ->title('Taks deleted successfully')
-                ->success()
-                ->send();
+                Notification::make()->title('Taks deleted successfully')->success()->send();
             });
     }
-
-    public function deleteDoneTasks()
+    public function toBoard()
     {
-        Todo::where('status', 'done')->delete();
-        $this->fetchTodos();
-
-        Notification::make()
-            ->title('Done tasks deleted successfully')
-            ->success()
-            ->send();
+        return redirect('admin/todos-board');
     }
+}; 
+?>
 
-    public function deleteDoneTasksAction(): Action
-    {
-        return Action::make('deleteDoneTasks')
-            ->color('critical')
-            ->icon('heroicon-m-minus-circle')
-            ->requiresConfirmation()
-            ->action(fn() => $this->deleteDoneTasks());
-    }
-}; ?>
+<div class="border border-gray-200 rounded-lg">
 
-<x-slot name="componentHeader">
-    {{ __('Todos') }}
-</x-slot>
-
-
-<div>
     @livewire('notifications')
-    <div >
-        <div >
-            <span class="font-bold">{{ __('My Tasks') }}:</span>
-            <x-filament::input type="text" wire:model="task"
-            wire:keydown.enter="addTodo()" placeholder="Add a new task..."></x-filament::input>
-            <x-filament::button wire:click="addTodo()" icon="heroicon-m-plus-circle">
+
+    <div class="flex items-center px-5 py-4 border-b border-gray-200">
+        <div class="flex space-x-3 flex-1"> 
+            <x-filament::input class="flex-1 border-black rounded-lg w-96" type="text" wire:model="task"
+                wire:keydown.enter="addTodo()" placeholder="Add a new task..." />
+            <x-filament::button class="gap-2" wire:click="addTodo()" icon="heroicon-m-plus-circle">
                 {{ __('Create new task') }}
             </x-filament::button>
-        </div>
-        <div>
-            @if(collect($todos)->pluck('status')->contains('done'))
-                {{ $this->deleteDoneTasksAction }}
-            @endif
+            <div class="p-2"></div>
+            <x-filament::button class="" wire:click="toBoard" icon="heroicon-o-clipboard-document-check">
+                {{ __('To board') }}
+            </x-filament::button>
         </div>
     </div>
-    <div class="p-5">
-        @if(count($todos) > 0)
+        
+    <div class="ml-5">
+        @if (count($todos) > 0)
             @if ($this->pendingTasks > 0)
-                <p class="mb-2"> {{ __('You have') }} <span class="font-bold">{{ $this->pendingTasks }}</span> {{ __('pending tasks') }}</p>
+                <p class="mb-2 text-sm text-orange"> {{ __('You have') }} <span
+                        class="font-bold">{{ $this->pendingTasks }}</span> {{ __('pending tasks') }}</p>
             @else
-                <p class="mb-2"> {{ __('No pending tasks') }}</p>
+                <p class="ml-2 mb-2 text-sm text-neutral"> {{ __('No pending tasks') }}</p>
             @endif
         @endif
 
-        @forelse($todos as $todo)
-            <div >
-                <!-- CheckBox for marking the task done / pending -->
-                <input type="checkbox" id="toggleStatus-{{ $todo['id'] }}"
-                    wire:change="toggleStatus({{ $todo['id'] }})"
-                    {{ $todo['status'] === 'done' ? 'checked' : '' }}>
+        <div class="justify-center">
+            @forelse($todos as $todo)
+                <div class="text-center">
+                    <div class="flex align-center items-center py-3 px-3">
+                        <div>
+                            <button title="Click to delete" wire:click="deleteTodo({{ $todo['id'] }})"
+                                for="toggleStatus-{{ $todo['id'] }}"
+                                class="ml-2 {{ $todo['status'] == 'done' ? 'text-gray-400' : '' }}">
+                                {{ $todo['task'] }}
+                            </button>
 
-                @if ($editingTodoId === $todo['id'])
-                    <div class="pr-3">
-                        <!-- Display input field for editing -->
-                        <input type="text" wire:model="editedTask" wire:keydown.enter="saveEdit({{ $todo['id'] }})">
+                        </div>
                     </div>
-                    <div class="space-x-3">
-                        <!-- Save and Cancel buttons -->
-                        <button
-                            wire:click="saveEdit({{ $todo['id'] }})">{{ __('Save') }}</button>
-                        <button wire:click="cancelEdit">{{ __('Cancel') }}</button>
-                    </div>
-                @else
-                    <div class="flex-1">
-                        <!-- Line on the task's name -->
-                        <label for="toggleStatus-{{ $todo['id'] }}"
-                            class="ml-2 {{ $todo['status'] == 'done' ? 'line-through text-gray-500' : '' }}">
-                            {{ $todo['task'] }}
-                        </label>
-                    </div>
-                    <div >
-                        <!-- Edit Button -->
-                        <button
-                            wire:click="editTodo({{ $todo['id'] }})">{{ __('Edit') }}</button>
-                        <!-- Delete Button -->
-                        {{ ($this->deleteAction)(['todoId' => $todo['id']]) }}
-                    </div>
-                @endif
-            </div>
-        @empty
-            <p>{{ __('You have no tasks added yet.') }}</p>
-        @endforelse
+                </div>
+            @empty
+                <p class="text-neutral text-sm">{{ __('You have no tasks added yet.') }}</p>
+            @endforelse
+        </div>
+
+
     </div>
-    <x-filament-actions::modals/>
+    <x-filament-actions::modals />
 </div>
