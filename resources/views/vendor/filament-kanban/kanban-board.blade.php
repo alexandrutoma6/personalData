@@ -1,16 +1,16 @@
 <x-filament-panels::page>
-    {{-- <div x-data wire:ignore.self class="flex flex-col">
-        @foreach($statuses as $status)
-            @include(static::$statusView)
-        @endforeach
-
-        <div wire:ignore>
-            @include(static::$scriptsView)
-        </div>
-    </div> --}}
+    {{-- button to todo list --}}
+    <div class="flex justify-end">
+        <x-filament::button 
+            color="secondary" 
+            icon="heroicon-m-clipboard-document-list"
+            href="/admin/todos"
+            tag="a"
+    >To Todo List</x-filament::button> 
+    </div>
     <div x-data wire:ignore.self class="container">
-        <div class="row">
-            <div class="flex col-md-6 pl-10">
+        <div class="">
+            <div class="flex col-md-6 pl-10 bg-red-500">
                 @foreach($statuses as $status)
                 <div class="p-2">
                     @include(static::$statusView)
