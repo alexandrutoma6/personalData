@@ -105,7 +105,7 @@ new class extends Component implements HasForms, HasActions {
 }; 
 ?>
 
-<div class="border border-gray-200 rounded-lg">
+<div class="border border-gray-200 rounded-lg px-2">
 
     @livewire('notifications')
 
@@ -113,13 +113,11 @@ new class extends Component implements HasForms, HasActions {
         <div class="flex space-x-3 flex-1"> 
             <x-filament::input class="flex-1 border-black rounded-lg w-96" type="text" wire:model="task"
                 wire:keydown.enter="addTodo()" placeholder="Add a new task..." />
-            <x-filament::button class="gap-2" wire:click="addTodo()" icon="heroicon-m-plus-circle">
-                {{ __('Create new task') }}
-            </x-filament::button>
-            <div class="p-2"></div>
-            <x-filament::button class="" wire:click="toBoard" icon="heroicon-o-clipboard-document-check">
-                {{ __('To board') }}
-            </x-filament::button>
+                <div sytle="margin-right: 10px">
+                    <x-filament::button color="neutral" wire:click="addTodo()" icon="heroicon-m-plus-circle">
+                        {{ __('Create new task') }}
+                    </x-filament::button>
+                </div>
         </div>
     </div>
         
