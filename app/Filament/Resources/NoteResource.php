@@ -3,9 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\NoteResource\Pages;
-use Filament\Tables\Columns\ViewColumn;
-use App\Filament\Resources\NoteResource\RelationManagers;
-use Filament\Support\Enums\Alignment;
 use App\Models\Note;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Form;
@@ -20,6 +17,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\Builder;
+use Archilex\ToggleIconColumn\Columns\ToggleIconColumn;
+
 
 class NoteResource extends Resource
 {
@@ -52,22 +51,28 @@ class NoteResource extends Resource
             ])
             ->columns([
                 Grid::make()
-                    ->columns(1)
+                    ->columns(2)
                     ->schema([
                         TextColumn::make('title')
                             ->searchable()
                             ->sortable()
                             ->bulleted()
-                            ->weight(FontWeight::Bold),
+                            ->weight(FontWeight::Bold)
+                            ->size(TextColumn\TextColumnSize::Large)
+                            ->columnSpan(2),
                         TextColumn::make('description')
                             ->markdown()
-                            ->limit(300),
+                            ->limit(300)
+                            ->columnSpan(2),
+                        ToggleIconColumn::make('favorite')
+                            ->onIcon('heroicon-s-heart')
+                            ->offIcon('heroicon-o-heart'),
                         TextColumn::make('date')
                             ->date()
-                            ->sortable(),
-                        ViewColumn::make('favorite')
-                            ->view('favorite')
-                            ->alignment(Alignment::End)
+                            ->sortable()
+                            ->weight(FontWeight::Medium)
+                            ->extraAttributes(['class' => 'p-3 ml-10'])
+                            
                     ])
 
             ])
@@ -78,6 +83,7 @@ class NoteResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -91,7 +97,8 @@ class NoteResource extends Resource
                     ->url('notes/create')
                     ->icon('heroicon-m-plus')
                     ->button(),
-            ]);
+            ])
+            ->recordUrl(null);
     }
 
     public static function getRelations(): array
@@ -107,6 +114,7 @@ class NoteResource extends Resource
             'index' => Pages\ListNotes::route('/'),
             'create' => Pages\CreateNote::route('/create'),
             'edit' => Pages\EditNote::route('/{record}/edit'),
+            'view' => Pages\ViewNote::route('/{record}'),
         ];
     }
 }
