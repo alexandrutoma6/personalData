@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');
-            $table->string('location');
-            $table->string('link');
-            $table->json('recurrence');
-            $table->boolean('all_day');
-            $table->boolean('is_recurrent');
-            $table->boolean('synced_google');
-            $table->string('google_calendar_id');
-            $table->foreignId('owner_user_id');
+            $table->string('location')->nullable();
+            $table->string('link')->nullable();
+            $table->text('recurrence')->nullable();
+            $table->boolean('all_day')->default(false);
+            $table->boolean('is_recurrent')->default(false);
+            $table->boolean('synced_google')->default(false);
+            $table->string('google_calendar_id')->nullable();
+            $table->foreignId('owner_user_id')->nullable();
             $table->timestamps();
         });
     }
