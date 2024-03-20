@@ -72,6 +72,7 @@ class ContactResource extends Resource
                 TextColumn::make('city')->searchable(),
                 TextColumn::make('category')->searchable()
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 // Filter::make('Male')
                 //     ->query(fn (Builder $query): Builder => $query->where('gender', 'male')),
