@@ -34,8 +34,10 @@ class DocumentResource extends Resource
                 ->minLength(3)
                 ->maxLength(20),
             MarkdownEditor::make('description')
+                ->required()    
                 ->columnSpanFull(),
             FileUpload::make('file')
+                ->required()
         ]);
     }
 
@@ -56,6 +58,8 @@ class DocumentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -77,6 +81,7 @@ class DocumentResource extends Resource
             'index' => Pages\ListDocuments::route('/'),
             'create' => Pages\CreateDocument::route('/create'),
             'edit' => Pages\EditDocument::route('/{record}/edit'),
+            'view' => Pages\ViewDocument::route('/{record}'),
         ];
     }
 }

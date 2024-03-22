@@ -139,7 +139,7 @@ class CalendarWidget extends FullCalendarWidget
             Components\Checkbox::make('is_recurrent')
                 ->inline()
                 ->reactive()
-                ->label('Is recurrent?'),
+                ->label('Recurrent Event'),
             Components\Section::make('Recurrence')
                 ->hidden(fn ($get) => $get('is_recurrent') === false)
                 ->statePath('recurrence')

@@ -74,10 +74,6 @@ class ContactResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                // Filter::make('Male')
-                //     ->query(fn (Builder $query): Builder => $query->where('gender', 'male')),
-                // Filter::make('Female')
-                //     ->query(fn (Builder $query): Builder => $query->where('gender', 'female'))
                 SelectFilter::make('gender')
                     ->options([
                         'male' => 'Male',
