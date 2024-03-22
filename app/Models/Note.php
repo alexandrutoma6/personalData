@@ -16,5 +16,11 @@ class Note extends Model
         'description',
         'date',
         'favorite',
+        'owner_user_id',
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_user_id');
+    }
 }

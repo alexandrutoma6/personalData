@@ -24,7 +24,6 @@ return new class extends Migration
             $table->boolean('is_recurrent')->default(false);
             $table->boolean('synced_google')->default(false);
             $table->string('google_calendar_id')->nullable();
-            $table->foreignId('owner_user_id')->nullable();
             $table->timestamps();
         });
     }

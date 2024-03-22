@@ -19,15 +19,17 @@ new class extends Component implements HasForms, HasActions {
     public $editedTask = '';
     public $editingTodoId;
     public $pendingTasks = 0;
+    public $user;
 
     public function mount()
     {
+        $this->user = Auth::user();
         $this->fetchTodos();
     }
 
     private function fetchTodos()
     {
-        $this->todos = Todo::all()->reverse()->toArray();
+        $this->todos = Todo::byOwner($this->user->id)->get()->reverse()->toArray();
         $this->pendingTasks = array_count_values(array_column($this->todos, 'status'))['pending'] ?? 0;
     }
 
@@ -35,11 +37,12 @@ new class extends Component implements HasForms, HasActions {
     {
         $newTask = trim($this->task);
 
-        if ($newTask != '') {
+        if ($newTask != '')
+        {
             $todo = new Todo();
             $todo->task = $newTask;
-            // $this->user->todos()->save($todo);
-            $todo->save();
+            $this->user->todos()->save($todo);
+            // $todo->save();
             $this->task = '';
         }
         $this->fetchTodos();

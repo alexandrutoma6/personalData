@@ -33,8 +33,8 @@ class Event extends Model
         'owner_user_id',
     ];
 
-    // public function owner()
-    // {
-    //     return $this->belongsTo(User::class, 'owner_user_id');
-    // }
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_user_id');
+    }
 }

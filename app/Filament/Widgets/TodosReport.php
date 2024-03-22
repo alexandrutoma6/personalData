@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
+use App\Models\Todo;
 
 class TodosReport extends ChartWidget
 {
@@ -37,14 +38,20 @@ class TodosReport extends ChartWidget
         ];
     }
 
-    protected function countPendingTodos(): int
+        protected function countPendingTodos(): int
     {
-        return \App\Models\Todo::where('status', 'pending')->count();
+        return Todo::where('status', 'pending')
+            ->where('owner_user_id', auth()->id())
+            ->count();
     }
+
     protected function countDoneTodos(): int
     {
-        return \App\Models\Todo::where('status', 'done')->count();
+        return Todo::where('status', 'done')
+            ->where('owner_user_id', auth()->id())
+            ->count();
     }
+
 
     protected function getType(): string
     {

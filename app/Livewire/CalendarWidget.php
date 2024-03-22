@@ -31,10 +31,10 @@ class CalendarWidget extends FullCalendarWidget
                         ]);
                     }
                 )
-                // ->mutateFormDataUsing(function (array $data): array {
-                //     $data['owner_user_id'] = auth()->id();
-                //     return $data;
-                // })
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['owner_user_id'] = auth()->id();
+                    return $data;
+                })
                 // ->after(function (array $data, Event $event,  GoogleCalendar $googleService): void {
                 //     if (auth()->user()->isLoggedInGoogle) {
                 //         if ($data['synced_google']) {
@@ -174,7 +174,8 @@ class CalendarWidget extends FullCalendarWidget
         return Event::query()
             ->where(function ($query) use ($fetchInfo) {
                 $query->where('starts_at', '>=', $fetchInfo['start'])
-                    ->where('ends_at', '>=', $fetchInfo['start']);
+                    ->where('ends_at', '>=', $fetchInfo['start'])
+                    ->where('owner_user_id', auth()->id());
             })
             ->orWhere(function ($query) use ($fetchInfo) {
                 $query->where('is_recurrent', 1); // Check if the event is recurrent

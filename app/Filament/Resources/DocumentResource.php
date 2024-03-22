@@ -44,6 +44,9 @@ class DocumentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('owner_user_id', auth()->id());
+            })
             ->columns([
                 TextColumn::make('title')
                             ->searchable()

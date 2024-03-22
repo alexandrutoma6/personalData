@@ -26,21 +26,19 @@ class StatsOverview extends BaseWidget
         ];
     }
 
-    protected function countTodos()
+        protected function countTodos()
     {
-        $pendingTodos = Todo::query()->where('status', 'pending')->count();
-        return $pendingTodos;
+        return Todo::query()->where('status', 'pending')->where('owner_user_id', auth()->id())->count();
     }
 
     protected function countContacts()
     {
-        $contacts = Contact::query()->count();
-        return $contacts;
+        return Contact::query()->where('owner_user_id', auth()->id())->count();
     }
 
     protected function countUpcomingEvents()
     {
-        $upcomingEvents = Event::query()->where('starts_at', '>', now())->count();
-        return $upcomingEvents;
+        return Event::query()->where('starts_at', '>', now())->where('owner_user_id', auth()->id())->count();
     }
+
 }

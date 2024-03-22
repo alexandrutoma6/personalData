@@ -49,28 +49,27 @@ class ContactsCategory extends ChartWidget
             'labels' => ['Work', 'School', 'Family', 'Friends', 'Other'],
         ];
     }
-
     protected function countWorkContacts(): int
     {
-        return Contact::where('category', 'work')->count();
+        return Contact::where('category', 'work')->where('owner_user_id', auth()->id())->count();
     }
     protected function countSchoolContacts(): int
     {
-        return Contact::where('category','school')->count();
+        return Contact::where('category', 'school')->where('owner_user_id', auth()->id())->count();
     }
     protected function countFamilyContacts(): int
     {
-        return Contact::where('category', 'family')->count();
+        return Contact::where('category', 'family')->where('owner_user_id', auth()->id())->count();
     }
     protected function countFriendsContacts(): int
     {
-        return Contact::where('category', 'friends')->count();
+        return Contact::where('category', 'friends')->where('owner_user_id', auth()->id())->count();
     }
     protected function countOtherContacts(): int
     {
-        return Contact::whereNull('category')->count();
-
+        return Contact::whereNull('category')->where('owner_user_id', auth()->id())->count();
     }
+
 
     protected function getType(): string
     {

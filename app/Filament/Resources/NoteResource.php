@@ -45,6 +45,9 @@ class NoteResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                return $query->where('owner_user_id', auth()->id());
+            })
             ->contentGrid([
                 'md' => 1,
                 'xl' => 2,

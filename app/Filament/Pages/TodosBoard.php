@@ -11,7 +11,7 @@ class TodosBoard extends KanbanBoard
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
     protected static string $model = Todo::class;
     protected static string $recordTitleAttribute = 'task';
-    // protected static string $view = 'filament-kanban::kanban-board';
+
     protected function statuses(): Collection
     {
         return collect([
@@ -21,7 +21,7 @@ class TodosBoard extends KanbanBoard
     }
     protected function records(): Collection
     {
-        return Todo::latest()->get();
+        return Todo::byOwner(auth()->id())->latest()->get();
     }
     public function onStatusChanged(int $recordId, string $status, array $fromOrderedIds, array $toOrderedIds): void
     {
