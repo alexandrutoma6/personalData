@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GoogleCalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,10 @@ Route::get('/', function () {
     // return view('welcome');
     return redirect('/admin');
 });
+
+Route::get('/google-calendar/get-code', [GoogleCalendarController::class, 'store'])
+->name('google-calendar.store');
+
+Route::get('/google-calendar/disconnect', [GoogleCalendarController::class, 'disconnect'])
+->name('google-calendar.disconnect')
+->middleware('auth');

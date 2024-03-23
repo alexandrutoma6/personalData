@@ -7,7 +7,6 @@ use Filament\Forms;
 use Filament\Forms\Components;
 use Illuminate\Database\Eloquent\Model;
 use Saade\FilamentFullCalendar\Actions;
-// use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use App\Services\GoogleCalendar;
 use Filament\Widgets\Widget;
@@ -35,17 +34,17 @@ class CalendarWidget extends FullCalendarWidget
                     $data['owner_user_id'] = auth()->id();
                     return $data;
                 })
-                // ->after(function (array $data, Event $event,  GoogleCalendar $googleService): void {
-                //     if (auth()->user()->isLoggedInGoogle) {
-                //         if ($data['synced_google']) {
-                //             $googleEventID = $googleService->addEventToGoogleCalendar($data);
-                //             $data['google_calendar_id'] = $googleEventID;
-                //             $event->update($data);
-                //         }
-                //     }
-                //     //using the ->after() method the fetchEvents() will not be called, so in order to refresh the calendar event, use the refreshRecords()
-                //     $this->refreshRecords();
-                // })
+                ->after(function (array $data, Event $event,  GoogleCalendar $googleService): void {
+                    if (auth()->user()->isLoggedInGoogle) {
+                        if ($data['synced_google']) {
+                            $googleEventID = $googleService->addEventToGoogleCalendar($data);
+                            $data['google_calendar_id'] = $googleEventID;
+                            $event->update($data);
+                        }
+                    }
+                    //using the ->after() method the fetchEvents() will not be called, so in order to refresh the calendar event, use the refreshRecords()
+                    $this->refreshRecords();
+                })
         ];
     }
 
@@ -64,7 +63,7 @@ class CalendarWidget extends FullCalendarWidget
                             'is_recurrent' => $record->is_recurrent,
                             'recurrence' => $record->recurrence,
                             'all_day' => $record->all_day,
-                            // 'synced_google' => $record->synced_google,
+                            'synced_google' => $record->synced_google,
                             'starts_at' => $arguments['event']['start'] ?? $record->starts_at,
                             'ends_at' => $arguments['event']['end'] ?? $record->ends_at,
                         ]);
@@ -72,35 +71,35 @@ class CalendarWidget extends FullCalendarWidget
                 )
                 ->mutateFormDataUsing(function (array $data, Event $event): array {
                     $data['recurrence'] = $data['is_recurrent'] ? $data['recurrence'] : NULL;
-                    // $data['google_calendar_id'] = $event->google_calendar_id;
+                    $data['google_calendar_id'] = $event->google_calendar_id;
                     return $data;
                 })
-                // ->after(function (array $data, Event $event, GoogleCalendar $googleService) {
-                //     if (auth()->user()->isLoggedInGoogle) {
-                //         if ($data['synced_google']) {
-                //             $googleEventID = $googleService->updateEventInGoolgeCalendar($data);
-                //             //if the event was created but not synced with the google calendar, the google_calendar_id needs to be updated
-                //             if ($data['google_calendar_id'] === null) {
-                //                 $data['google_calendar_id'] = $googleEventID;
-                //                 //update the event in the database with the new google_calendar_id
-                //                 $event->update($data);
-                //             }
-                //         }
-                //     }
+                ->after(function (array $data, Event $event, GoogleCalendar $googleService) {
+                    if (auth()->user()->isLoggedInGoogle) {
+                        if ($data['synced_google']) {
+                            $googleEventID = $googleService->updateEventInGoolgeCalendar($data);
+                            //if the event was created but not synced with the google calendar, the google_calendar_id needs to be updated
+                            if ($data['google_calendar_id'] === null) {
+                                $data['google_calendar_id'] = $googleEventID;
+                                //update the event in the database with the new google_calendar_id
+                                $event->update($data);
+                            }
+                        }
+                    }
 
-                //     $this->refreshRecords();
-                // })
+                    $this->refreshRecords();
+                })
                 ,
             Actions\DeleteAction::make()
-                // ->after(function (Event $record, GoogleCalendar $googleService) {
-                //     if (auth()->user()->isLoggedInGoogle) {
-                //         if ($record->synced_google) {
-                //             //delete the event from the google calendar
-                //             $googleService->deleteEventFromGoolgeCalendar($record->google_calendar_id);
-                //         }
-                //     }
-                //     $this->refreshRecords();
-                // }),
+                ->after(function (Event $record, GoogleCalendar $googleService) {
+                    if (auth()->user()->isLoggedInGoogle) {
+                        if ($record->synced_google) {
+                            //delete the event from the google calendar
+                            $googleService->deleteEventFromGoolgeCalendar($record->google_calendar_id);
+                        }
+                    }
+                    $this->refreshRecords();
+                }),
         ];
     }
 
@@ -125,14 +124,14 @@ class CalendarWidget extends FullCalendarWidget
                         ->required(),
 
                 ]),
-            // Components\Checkbox::make('synced_google')
-            //     //disable the option to sync with google if you are not connected to a google account
-            //     ->disabled(fn () => !(auth()->user()->isLoggedInGoogle))
-            //     //hint for the user to connect his google account
-            //     ->hint('Login into Google Calendar to sync events.')
-            //     ->inline()
-            //     ->reactive()
-            //     ->label('Synced with Google Calendar'),
+            Components\Checkbox::make('synced_google')
+                //disable the option to sync with google if you are not connected to a google account
+                ->disabled(fn () => !(auth()->user()->isLoggedInGoogle))
+                //hint for the user to connect his google account
+                ->hint('Login into Google Calendar to sync events.')
+                ->inline()
+                ->reactive()
+                ->label('Synced with Google Calendar'),
             Components\Checkbox::make('all_day')
                 ->inline()
                 ->reactive(),

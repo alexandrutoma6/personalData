@@ -47,4 +47,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Todo::class, 'owner_user_id');
     }
+    public function googleToken() 
+    {
+        return $this->hasOne(GoogleToken::class, 'user_id', 'id');
+    }
+
+    public function getIsLoggedInGoogleAttribute()
+    {
+        return $this->googleToken !== null;
+    }
 }
