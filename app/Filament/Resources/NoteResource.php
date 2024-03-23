@@ -38,7 +38,7 @@ class NoteResource extends Resource
                 MarkdownEditor::make('description')
                     ->columnSpanFull(),
                 Checkbox::make('favorite')
-                    ->label('Favorite')
+                    ->label('Favorite'),
             ]);
     }
 

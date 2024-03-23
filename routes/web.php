@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleCalendarController;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,8 @@ Route::get('/', function () {
 });
 
 Route::get('/google-calendar/get-code', [GoogleCalendarController::class, 'store'])
-->name('google-calendar.store');
+    ->name('google-calendar.store');
 
 Route::get('/google-calendar/disconnect', [GoogleCalendarController::class, 'disconnect'])
-->name('google-calendar.disconnect')
-->middleware('auth');
+    ->name('google-calendar.disconnect')
+    ->middleware('auth');
