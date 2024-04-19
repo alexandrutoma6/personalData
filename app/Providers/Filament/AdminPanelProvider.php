@@ -35,6 +35,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::hex('#1d4ed8'),
                 'secondary' => Color::hex('#ca8a04'),
                 'neutral' => Color::hex('#777586'),
+                'green' => Color::Green,
                 'violet' => Color::Violet,
                 'orange' => Color::Orange,
                 'critical' => Color::hex('#C70026')
