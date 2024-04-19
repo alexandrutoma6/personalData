@@ -30,8 +30,8 @@ class TodosReport extends ChartWidget
                 [
                     'label' => 'Todos',
                     'data' => [$this->countPendingTodos(), $this->countDoneTodos()],
-                    'backgroundColor' => ['#BFDBFE', '#4BC0C0'],
-                    'borderColor' => ['#BFDBFE', '#4BC0C0'],
+                    'backgroundColor' => ['#145697', '#c8e4ff'],
+                    'borderColor' => ['#145697', '#c8e4ff'],
                 ],
             ],
                 'labels' => ['Pending', 'Done'],

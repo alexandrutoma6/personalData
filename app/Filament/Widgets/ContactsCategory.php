@@ -43,7 +43,7 @@ class ContactsCategory extends ChartWidget
                 [
                     'label' => 'Contacts Categories',
                     'data' => [$this->countWorkContacts(), $this->countSchoolContacts(), $this->countFamilyContacts(), $this->countFriendsContacts(), $this->countOtherContacts()],
-                    'backgroundColor' => ['#FF6384','#36A2EB','#FFCE56','#4BC0C0','#C779D0'],
+                    'backgroundColor' => ['#ff80a8','#007444','#ACA9BB','#0097FF','#B32400'],
                 ],
             ],
             'labels' => ['Work', 'School', 'Family', 'Friends', 'Other'],

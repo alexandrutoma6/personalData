@@ -19,6 +19,7 @@ class ContactSeeder extends Seeder
         // Generate 50 contacts with random data
         for ($i = 0; $i < 50; $i++) {
             $contact = new Contact([
+                'owner_user_id' => 2,
                 'name' => $faker->name,
                 'phone_number' => $this->generateRandomPhoneNumber(),
                 'gender' => $this->generateRandomGender(),

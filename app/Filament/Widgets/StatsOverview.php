@@ -18,7 +18,7 @@ class StatsOverview extends BaseWidget
                 ->color('critical')
                 ->chart([7, 2, 10, 3, 15, 4, 17]),
             Stat::make('Contacts', $this->countContacts())
-                ->color('info')
+                ->color('secondary')
                 ->chart([10, 8, 3, 9, 2, 12, 17]),
             Stat::make('Upcoming Events', $this->countUpcomingEvents())
                 ->color('neutral')

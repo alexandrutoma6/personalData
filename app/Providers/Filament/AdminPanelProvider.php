@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
+use pxlrbt\FilamentSpotlight\SpotlightPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -33,10 +34,10 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::hex('#1d4ed8'),
                 'secondary' => Color::hex('#ca8a04'),
-                'neutral' => Color::hex('#9ca3af'),
+                'neutral' => Color::hex('#777586'),
                 'violet' => Color::Violet,
                 'orange' => Color::Orange,
-                'critical' => Color::Rose,
+                'critical' => Color::hex('#C70026')
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -48,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->plugin(SpotlightPlugin::make())
             ->plugin(
                 FilamentFullCalendarPlugin::make()
                     ->schedulerLicenseKey('')
@@ -78,6 +80,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->brandName('Personal Hub');;
+            ->brandName('Personal Data');
     }
 }

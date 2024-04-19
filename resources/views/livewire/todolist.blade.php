@@ -17,7 +17,6 @@ new class extends Component implements HasForms, HasActions {
     public $todos;
     public $task = '';
     public $editedTask = '';
-    public $editingTodoId;
     public $pendingTasks = 0;
     public $user;
 
@@ -45,40 +44,6 @@ new class extends Component implements HasForms, HasActions {
             // $todo->save();
             $this->task = '';
         }
-        $this->fetchTodos();
-    }
-
-    public function editTodo($todoId)
-    {
-        $this->editingTodoId = $todoId;
-        $this->editedTask = Todo::findOrFail($todoId)->task;
-        $this->fetchTodos();
-    }
-
-    public function saveEdit($todoId)
-    {
-        $newTask = trim($this->editedTask);
-
-        if ($newTask != '') {
-            $todo = Todo::findOrFail($todoId);
-            $todo->task = $newTask;
-            $todo->save();
-        }
-        $this->editingTodoId = null;
-        $this->fetchTodos();
-    }
-
-    public function cancelEdit()
-    {
-        $this->editingTodoId = null;
-        $this->editedTask = '';
-        $this->fetchTodos();
-    }
-
-    public function toggleStatus(Todo $todo)
-    {
-        $todo->status = $todo->status == 'pending' ? 'done' : 'pending';
-        $todo->save();
         $this->fetchTodos();
     }
 
