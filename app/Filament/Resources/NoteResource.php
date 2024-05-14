@@ -101,6 +101,7 @@ class NoteResource extends Resource
                     ->icon('heroicon-m-plus')
                     ->button(),
             ])
+            ->defaultSort('updated_at', 'desc')
             ->recordUrl(null);
     }
 

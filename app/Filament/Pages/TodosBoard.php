@@ -9,6 +9,7 @@ use Mokhosh\FilamentKanban\Pages\KanbanBoard;
 class TodosBoard extends KanbanBoard
 {
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $activeNavigationIcon = 'heroicon-s-clipboard-document-check';
     protected static string $model = Todo::class;
     protected static string $recordTitleAttribute = 'task';
 
