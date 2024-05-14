@@ -37,6 +37,7 @@ class ContactResource extends Resource
                     ->required()
                     ->email(),
                 Select::make('gender')
+                    ->native(false)
                     ->options([
                         'male' => 'Male',
                         'female' => 'Female'
@@ -44,6 +45,7 @@ class ContactResource extends Resource
                 TextInput::make('city')
                     ->minLength(3),
                 Select::make('category')
+                    ->native(false)
                     ->options([
                         'family' => 'Family',
                         'work' => 'Work',

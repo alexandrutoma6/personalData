@@ -63,7 +63,7 @@ class AdminPanelProvider extends PanelProvider
                         'headerToolbar' => [
                             'left' => 'prev,next,today',
                             'center' => 'title',
-                            'right' => 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' // user can switch between the two
+                            'right' => 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                         ]
                     ])
             )

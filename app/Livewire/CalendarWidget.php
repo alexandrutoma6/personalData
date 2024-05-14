@@ -119,8 +119,10 @@ class CalendarWidget extends FullCalendarWidget
             Components\Grid::make()
                 ->schema([
                     Components\DateTimePicker::make('starts_at')
+                        ->native(false)
                         ->required(),
                     Components\DateTimePicker::make('ends_at')
+                        ->native(false)    
                         ->required(),
 
                 ]),
