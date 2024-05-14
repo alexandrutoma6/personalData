@@ -13,6 +13,7 @@ class CreateNote extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['owner_user_id'] = auth()->id();
+        $data['date'] = now();
         return $data;
     }
     protected function getRedirectUrl(): string
